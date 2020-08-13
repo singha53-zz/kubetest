@@ -5,7 +5,7 @@ pipeline {
         stage('Clone git repo') {
             steps {
                 sh 'echo "STAGE 0: Cloning app code from SCM ..."'
-                git 'https://github.com/mudathirlawal/cicd-with-jenkins-docker-and-aws-eks.git'
+                git 'https://github.com/singha53/kubetest.git'
             }    
         }        
         stage('Lint all app code') {
