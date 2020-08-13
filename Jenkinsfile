@@ -33,7 +33,7 @@ pipeline {
         }                                   
         stage( 'Deploy image to AWS EKS' ) {
             steps {
-                withAWS( region:'us-west-2', credentials:'capstone' ) {
+                withAWS( region:'us-west-2', credentials:'aws-static' ) {
                     sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
                     sh 'aws eks --region us-west-2 update-kubeconfig --name capstone'
                     sh 'kubectl config use-context arn:aws:eks:us-west-2:428819381342:cluster/capstone'            
