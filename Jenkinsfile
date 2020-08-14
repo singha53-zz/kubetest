@@ -35,7 +35,7 @@ pipeline {
             steps {
                 withAWS( region:'us-east-1', credentials:'aws-static' ) {
                     sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
-                    sh '/usr/local/bin/aws eks --region us-east-1 update-kubeconfig --name capstone'
+                    sh 'aws eks --region us-east-1 update-kubeconfig --name capstone'
                     sh 'kubectl config use-context arn:aws:ecs:us-east-1:705799169873:cluster/capstone'            
                     sh 'kubectl set image deployment web-app web-app=singha53/web-app:v1.0'
                     sh 'kubectl rollout status deployment web-app'
