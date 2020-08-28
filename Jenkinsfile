@@ -37,7 +37,7 @@ pipeline {
                     sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
                     sh 'aws eks --region us-west-2 update-kubeconfig --name prod'
                     sh 'kubectl config use-context arn:aws:eks:us-west-2:705799169873:cluster/prod'            
-                    sh 'kubectl set image deployment web-app web-app=singha53/web-app:v1.0'
+                    sh 'kubectl set image deployment/web-app web-app=singha53/web-app:v1.0'
                     sh 'kubectl rollout status deployment web-app'
                     sh 'kubectl apply -f templates/deployment.yml'
                     sh 'kubectl apply -f templates/loadbalancer.yml'
