@@ -1,26 +1,13 @@
-FROM nginx:alpine
+FROM rocker/shiny-verse:latest
 
-## Step 1:
-# Remove initial Nginx index file
-RUN rm /usr/share/nginx/html/index.html
+# Download and install libraries
+RUN R -e "install.packages(c('shinydashboard', 'sortable'))"
+RUN R -e "install.packages('remotes')"
+RUN R -e "remotes::install_github('daqana/dqshiny')"
+RUN Rscript -e "install.packages('BiocManager')"
+RUN Rscript -e "BiocManager::install('limma')"
+RUN R -e "devtools::install_github('singha53/omicsBioAnalytics@master')" 
 
-## Step 2:
-# Create a working directory
-WORKDIR /web-app
+EXPOSE 80
 
-## Step 3:
-# Set up an environment variable so environment variables 
-# can be accessed by processes running within the image. 
-ENV PORT 80 
-
-## Step 4:
-# Copy index file to working directory
-COPY index.html /web-app/index.html
-
-## Step 5:
-# Copy remainder source files to working directory
-COPY . /web-app
-
-## Step 6:
-# Expose port 80
-EXPOSE 80/tcp
+CMD ["R", "-e", "options(shiny.port = 80, shiny.host = '0.0.0.0'); shiny::runApp('/usr/local/lib/R/site-library/omicsBioAnalytics/app')"] 
